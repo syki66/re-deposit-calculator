@@ -64,7 +64,6 @@
     }
 
     const handleChange = (event) => {
-        
         event.target.value = numberWithCommas(parseFloat(event.target.value.replace(/,/g, '')));
     }
     
@@ -84,7 +83,7 @@
 
         const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
 
-        const amount = document.querySelector('.amount').value;
+        const amount = parseFloat(document.querySelector('.amount').value.replace(/,/g, ''));
 
         const rate_1 = document.querySelector('.rate_1').value * 0.01;
         const rate_2 = document.querySelector('.rate_2').value * 0.01;
