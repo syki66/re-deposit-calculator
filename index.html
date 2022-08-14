@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head><meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+</head>
+
+<body>
+    <h1>예금 해지 계산기 (1년 기준)</h1>
+
+    <hr>
+        <span>금액:</span>
+        <input class="amount" placeholder="숫자만 입력" onchange="handleChange(event)"/><span>원</span>
+        <br>
+
+        <hr>
+    
+        <h2>예금1 (기존)</h2>
+
+        <span>금리(%):</span>
+        <input class="rate_1" placeholder="숫자만 입력" />
+        <br>
+
+        <span>세금(%):</span>
+        <input class="tax_1" placeholder="숫자만 입력" value='15.4' />
+        <br>
+
+        <span>가입 날짜:</span>
+        <input class="date_1" type="date" />
+        <br>
+
+        <hr>
+
+        <h2>예금2 (새로)</h2>
+
+        <span>금리(%):</span>
+        <input class="rate_2" placeholder="숫자만 입력" />
+        <br>
+
+        <span>세금(%):</span>
+        <input class="tax_2" value='15.4' />
+        <br>
+
+        <span>가입 날짜:</span>
+        <input class="date_2" type="date">
+        <br>
+
+        <hr>
+
+        <button type="submit" onclick="onClick()">계산하기</button>
+
+        <hr>
+
+        <h2>결과</h2>
+        <div class="result"></div>
+    
+</body>
+
+<script>
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    const handleChange = (event) => {
+        
+        event.target.value = numberWithCommas(parseFloat(event.target.value.replace(/,/g, '')));
+    }
+    
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const today = date.getDate();
+    document.querySelector('.date_2').value= `${year}-${month < 10 ? `0${month}` : month}-${today < 10 ? `0${today}` : today}`;
+
+    const onClick = (event) => {
+        const date_1 = document.querySelector('.date_1').value.split('-');
+        const date_2 = document.querySelector('.date_2').value.split('-');
+
+        const oneDay = 24 * 60 * 60 * 1000;
+        const firstDate = new Date(date_1[0], date_1[1], date_1[2]);
+        const secondDate = new Date(date_2[0], date_2[1], date_2[2]);
+
+        const diffDays = Math.round(Math.abs((firstDate - secondDate) / oneDay));
+
+        const amount = document.querySelector('.amount').value;
+
+        const rate_1 = document.querySelector('.rate_1').value * 0.01;
+        const rate_2 = document.querySelector('.rate_2').value * 0.01;
+
+        const tax_1 = 1 - document.querySelector('.tax_1').value * 0.01;
+        const tax_2 = 1 - document.querySelector('.tax_2').value * 0.01;
+
+        const account_1 = (amount * rate_1) * tax_1;
+        const account_2 = (amount * rate_2 * ((365 - diffDays) / 365)) * tax_2;
+
+        diff_amount = Math.round(Math.abs(account_1 - account_2));
+        if (isNaN(diff_amount)) {
+            document.querySelector('.result').innerText=`모든 입력창을 올바른 형식으로 입력해주세요.`;
+            return false;
+        }
+        if (account_1 < account_2) {
+            document.querySelector('.result').innerText=`${numberWithCommas(diff_amount)}원 이득`;
+        } else {
+            document.querySelector('.result').innerText=`${numberWithCommas(diff_amount)}원 손해`;
+        }
+    }
+
+    // 예금 1을 해지하면 현재 기간까지의 손실 발생
+    // [(1년) - (예금1 기간)] 기간 동안의 (예금2)가 (예금1 만기)보다 더 높은지 계산
+
+</script>
+
+</html>
