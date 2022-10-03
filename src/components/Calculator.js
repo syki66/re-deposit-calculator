@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { getDateDiff, addMonths } from "../utils/DateUtil";
+import { getDateDiff, addMonths } from "../utils/dateUtil";
+import { isFloat, isOnlyNum, addComma, removeComma } from "../utils/validator";
 
 export default function Calculator() {
   const [inputs, setInputs] = useState({
@@ -17,34 +18,20 @@ export default function Calculator() {
     new: "",
   });
 
-  const isOnlyNum = (value) => {
-    // 숫자만 포함하고 있는지 검사
-    if (/^\d+$/.test(value)) {
-      return true;
-    }
-    return false;
-  };
-
-  const removeDeco = (num) => {
-    // 쉼표 제거
-    return parseInt(num.replace(/[^0-9]/g, ""), 10);
-  };
-
-  const addDeco = (num) => {
-    // 쉼표 추가
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
   const handleAmountChange = (e) => {
     const { name, value } = e.target;
-    let strippedValue = removeDeco(value);
+    let strippedValue = removeComma(value);
+    const valid = isOnlyNum(strippedValue) && strippedValue < Math.pow(10, 15);
+
+    // 빈값일 경우
     if (isNaN(strippedValue)) {
       setInputs({
         ...inputs,
         [name]: "",
       });
     }
-    if (isOnlyNum(strippedValue) && strippedValue < Math.pow(10, 15)) {
+
+    if (valid) {
       setInputs({
         ...inputs,
         [name]: strippedValue,
@@ -62,29 +49,25 @@ export default function Calculator() {
     });
   };
 
+  const handleRateChange = (e) => {
+    const { name, value } = e.target;
+    const valid =
+      (isFloat(value) && value < 1000 && value.length < 9) || value === "";
+
+    if (valid) {
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    }
+  };
+
   const handleDateChange = (e) => {
     const { name, value } = e.target;
     setInputs({
       ...inputs,
       [name]: value,
     });
-  };
-
-  const isFloat = (value) => {
-    if (/^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/.test(value)) {
-      return true;
-    }
-    return false;
-  };
-
-  const handleRateChange = (e) => {
-    const { name, value } = e.target;
-    if (isFloat(value) || value === "") {
-      setInputs({
-        ...inputs,
-        [name]: value,
-      });
-    }
   };
 
   const handleSubmit = () => {
@@ -122,7 +105,7 @@ export default function Calculator() {
           <label>
             <input
               name="amount"
-              value={addDeco(inputs["amount"])}
+              value={addComma(inputs["amount"])}
               onChange={handleAmountChange}
             />
             원
