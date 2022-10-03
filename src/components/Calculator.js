@@ -97,96 +97,113 @@ export default function Calculator() {
 
   return (
     <>
-      <h1>재예금 계산기</h1>
+      <div className="outter__container">
+        <h1 className="h1">재예금 계산기</h1>
 
-      <section style={{ background: "pink" }}>
-        <h2>공통</h2>
-        <p>
-          <label>
-            <input
-              name="amount"
-              value={addComma(inputs["amount"])}
-              onChange={handleAmountChange}
-            />
-            원
-          </label>
-          <label>
-            <select
-              name="period"
-              value={inputs["period"]}
-              onChange={handlePeriodChange}
-            >
-              {[...Array(60).keys()].map((el) => (
-                <option key={el + 1} value={el + 1}>
-                  {el + 1}
-                </option>
-              ))}
-            </select>
-            개월
-          </label>
-        </p>
-      </section>
+        <div className="container">
+          <section className="section">
+            <h2 className="h2">공통</h2>
+            <p className="content">
+              <label>
+                <input
+                  name="amount"
+                  value={addComma(inputs["amount"])}
+                  onChange={handleAmountChange}
+                />
+                원
+              </label>
+              <label>
+                <select
+                  name="period"
+                  value={inputs["period"]}
+                  onChange={handlePeriodChange}
+                >
+                  {[...Array(60).keys()].map((el) => (
+                    <option key={el + 1} value={el + 1}>
+                      {el + 1}
+                    </option>
+                  ))}
+                </select>
+                개월
+              </label>
+            </p>
+          </section>
 
-      <section style={{ background: "gray" }}>
-        <h2>기존예금</h2>
-        <p>
-          <label>
-            <input
-              name="oldInterest"
-              value={inputs["oldInterest"]}
-              onChange={handleRateChange}
-            />
-            %
-          </label>
-          <label>
-            <input
-              name="oldTax"
-              value={inputs["oldTax"]}
-              onChange={handleRateChange}
-            />
-            %
-          </label>
-          <input
-            name="oldDate"
-            value={inputs["oldDate"]}
-            onChange={handleDateChange}
-            type="date"
-          />
-        </p>
-      </section>
+          <section className="section">
+            <h2 className="h2">기존예금</h2>
+            <p className="content">
+              <label>
+                <input
+                  name="oldInterest"
+                  value={inputs["oldInterest"]}
+                  onChange={handleRateChange}
+                />
+                %
+              </label>
+              <label>
+                <input
+                  name="oldTax"
+                  value={inputs["oldTax"]}
+                  onChange={handleRateChange}
+                />
+                %
+              </label>
+              <label>
+                <input
+                  className="datePicker"
+                  name="oldDate"
+                  value={inputs["oldDate"]}
+                  onChange={handleDateChange}
+                  type="date"
+                />
+              </label>
+            </p>
+          </section>
 
-      <section style={{ background: "green" }}>
-        <h2>새 예금</h2>
-        <p>
-          <label>
-            <input
-              name="newInterest"
-              value={inputs["newInterest"]}
-              onChange={handleRateChange}
-            />
-            %
-          </label>
-          <label>
-            <input
-              name="newTax"
-              value={inputs["newTax"]}
-              onChange={handleRateChange}
-            />
-            %
-          </label>
-          <input
-            name="newDate"
-            value={inputs["newDate"]}
-            onChange={handleDateChange}
-            type="date"
-          />
-        </p>
-      </section>
+          <section className="section">
+            <h2 className="h2">새 예금</h2>
+            <p className="content">
+              <label>
+                <input
+                  name="newInterest"
+                  value={inputs["newInterest"]}
+                  onChange={handleRateChange}
+                />
+                %
+              </label>
+              <label>
+                <input
+                  name="newTax"
+                  value={inputs["newTax"]}
+                  onChange={handleRateChange}
+                />
+                %
+              </label>
+              <label>
+                <input
+                  className="datePicker"
+                  name="newDate"
+                  value={inputs["newDate"]}
+                  onChange={handleDateChange}
+                  type="date"
+                />
+              </label>
+            </p>
+          </section>
+        </div>
 
-      <input type="submit" onClick={handleSubmit} />
+        <div className="btn__container">
+          <button type="submit" onClick={handleSubmit}>
+            계산하기
+          </button>
+        </div>
+      </div>
 
-      <div>{result["old"]}</div>
-      <div>{result["new"]}</div>
+      <div>
+        결과
+        <div>{result["old"]}</div>
+        <div>{result["new"]}</div>
+      </div>
 
       {/* <label>
         <input type="radio" name="fruit" value="apple" /> 단리
