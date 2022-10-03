@@ -4,13 +4,17 @@ import { getDateDiff, addMonths } from "../utils/DateUtil";
 export default function Calculator() {
   const [inputs, setInputs] = useState({
     period: 12,
-    amount: 0,
+    amount: "",
     oldDate: "",
-    oldInterest: 0.0,
-    oldTax: 0.154,
+    oldInterest: "",
+    oldTax: "0.154",
     newDate: "",
-    newInterest: 0.0,
-    newTax: 0.154,
+    newInterest: "",
+    newTax: "0.154",
+  });
+  const [result, setResult] = useState({
+    old: "",
+    new: "",
   });
 
   const isOnlyNum = (value) => {
@@ -35,7 +39,10 @@ export default function Calculator() {
     const { name, value } = e.target;
     let strippedValue = removeDeco(value);
     if (isNaN(strippedValue)) {
-      strippedValue = 0;
+      setInputs({
+        ...inputs,
+        [name]: "",
+      });
     }
     if (isOnlyNum(strippedValue) && strippedValue < Math.pow(10, 15)) {
       setInputs({
@@ -63,16 +70,26 @@ export default function Calculator() {
     });
   };
 
+  const isFloat = (value) => {
+    if (/^[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)$/.test(value)) {
+      return true;
+    }
+    return false;
+  };
+
   const handleRateChange = (e) => {
     const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: Number(value),
-    });
+    if (isFloat(value) || value === "") {
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    }
   };
 
   const handleSubmit = () => {
     // 새예금 날짜가 기존예금보다 큰지 체크하기
+    // 개월과 새 예금 유효성 체크
 
     const dueDate = addMonths(new Date(inputs["oldDate"]), inputs["period"]);
     const fullDays = getDateDiff(inputs["oldDate"], dueDate);
@@ -87,10 +104,12 @@ export default function Calculator() {
         365) *
       remainingDays;
 
-    console.log(oldDeposit);
-    console.log(newDeposit);
+    setResult({
+      old: oldDeposit,
+      new: newDeposit,
+    });
 
-    console.log(inputs);
+    // console.log(inputs);
   };
 
   return (
@@ -182,6 +201,9 @@ export default function Calculator() {
       </section>
 
       <input type="submit" onClick={handleSubmit} />
+
+      <div>{result["old"]}</div>
+      <div>{result["new"]}</div>
 
       {/* <label>
         <input type="radio" name="fruit" value="apple" /> 단리

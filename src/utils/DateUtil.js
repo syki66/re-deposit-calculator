@@ -4,7 +4,7 @@ const getDateDiff = (date_1, date_2) => {
   const diffTime = Math.abs(date2 - date1);
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-  return diffDays;
+  return diffDays - 1;
 };
 
 const addMonths = (date, months) => {
