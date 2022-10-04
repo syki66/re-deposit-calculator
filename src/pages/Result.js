@@ -15,9 +15,9 @@ export default function Result() {
 
   let msg = "";
   if (oldDeposit < newDeposit) {
-    msg = `기존 예금 해지 후, 새 예금으로 갈아타는 것이 `;
+    msg = `기존 예금 해지 후, 새 예금으로 갈아타는 것이`;
   } else {
-    msg = `기존 예금을 유지하는 것이 `;
+    msg = `기존 예금을 유지하는 것이`;
   }
 
   return (
@@ -29,16 +29,19 @@ export default function Result() {
           <section className="section">
             <h2 className="h2">
               {msg}
-              <span
+              <div
                 style={{
-                  color: "red",
+                  marginTop: "0.5em",
                 }}
-              >{`${addComma(DepositDiff)}원 `}</span>
-              이득
+              >
+                <span style={{ color: "red" }}>{`${addComma(
+                  DepositDiff
+                )}원 `}</span>
+                이득
+              </div>
             </h2>
 
             <p className="content">
-              <label></label>
               <label>
                 금액 :<div>{addComma(inputs.amount)}</div>원
               </label>
@@ -51,20 +54,20 @@ export default function Result() {
 
           <section className="section">
             <h2 className="h2">기존 예금 이자</h2>
-            <h2 className="h2">{addComma(result.old)}원</h2>
+            <h2 className="h2">{addComma(oldDeposit)}원</h2>
             <p className="content">
               <label>
                 금리 :<div>{inputs.oldInterest}</div>%
               </label>
               <label>
-                진행도 :<div>{result.progress}</div>%
+                진행도 :<div>{Math.round(result.progress * 100) / 100}</div>%
               </label>
             </p>
           </section>
 
           <section className="section">
             <h2 className="h2">새 예금 이자</h2>
-            <h2 className="h2">{addComma(result.new)}원</h2>
+            <h2 className="h2">{addComma(newDeposit)}원</h2>
             <p className="content">
               <label>
                 금리 :<div>{inputs.newInterest}</div>%

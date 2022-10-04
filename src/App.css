@@ -97,6 +97,11 @@
   body {
     font-size: 8px;
   }
+
+  .outter__container {
+    margin: 0em auto;
+  }
+
   .container {
     grid-template-rows: repeat(3, 1fr);
   }
