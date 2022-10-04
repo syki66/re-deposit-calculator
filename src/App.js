@@ -1,10 +1,17 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Calculator from "./components/Calculator";
+import Result from "./pages/Result";
 
 function App() {
   return (
     <>
-      <Calculator />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Calculator />}></Route>
+          <Route path="/result" element={<Result />}></Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

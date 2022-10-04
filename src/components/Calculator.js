@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { getDateDiff, addMonths } from "../utils/dateUtil";
 import { isFloat, isOnlyNum, addComma, removeComma } from "../utils/validator";
+import { useNavigate } from "react-router-dom";
 
 export default function Calculator() {
+  const navigate = useNavigate();
   const [inputs, setInputs] = useState({
     period: 12,
     amount: "",
@@ -87,12 +89,16 @@ export default function Calculator() {
         365) *
       remainingDays;
 
-    setResult({
+    const result = {
       old: oldDeposit,
       new: newDeposit,
-    });
+      progress: ((fullDays - remainingDays) / fullDays) * 100,
+    };
 
-    // console.log(inputs);
+    sessionStorage.setItem("result", JSON.stringify(result));
+    sessionStorage.setItem("inputs", JSON.stringify(inputs));
+
+    navigate("/result");
   };
 
   return (
@@ -102,9 +108,10 @@ export default function Calculator() {
 
         <div className="container">
           <section className="section">
-            <h2 className="h2">공통</h2>
+            <h2 className="h2">공통 입력</h2>
             <p className="content">
               <label>
+                금액 :
                 <input
                   name="amount"
                   value={addComma(inputs["amount"])}
@@ -113,6 +120,7 @@ export default function Calculator() {
                 원
               </label>
               <label>
+                기간 :
                 <select
                   name="period"
                   value={inputs["period"]}
@@ -130,9 +138,10 @@ export default function Calculator() {
           </section>
 
           <section className="section">
-            <h2 className="h2">기존예금</h2>
+            <h2 className="h2">기존 예금</h2>
             <p className="content">
               <label>
+                금리 :
                 <input
                   name="oldInterest"
                   value={inputs["oldInterest"]}
@@ -141,6 +150,7 @@ export default function Calculator() {
                 %
               </label>
               <label>
+                세율 :
                 <input
                   name="oldTax"
                   value={inputs["oldTax"]}
@@ -149,6 +159,7 @@ export default function Calculator() {
                 %
               </label>
               <label>
+                가입일 :
                 <input
                   className="datePicker"
                   name="oldDate"
@@ -164,6 +175,7 @@ export default function Calculator() {
             <h2 className="h2">새 예금</h2>
             <p className="content">
               <label>
+                금리 :
                 <input
                   name="newInterest"
                   value={inputs["newInterest"]}
@@ -172,6 +184,7 @@ export default function Calculator() {
                 %
               </label>
               <label>
+                세율 :
                 <input
                   name="newTax"
                   value={inputs["newTax"]}
@@ -180,6 +193,7 @@ export default function Calculator() {
                 %
               </label>
               <label>
+                가입일 :
                 <input
                   className="datePicker"
                   name="newDate"
@@ -197,12 +211,6 @@ export default function Calculator() {
             계산하기
           </button>
         </div>
-      </div>
-
-      <div>
-        결과
-        <div>{result["old"]}</div>
-        <div>{result["new"]}</div>
       </div>
 
       {/* <label>
