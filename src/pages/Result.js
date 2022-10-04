@@ -43,14 +43,14 @@ export default function Result() {
                 금액 :<div>{addComma(inputs.amount)}</div>원
               </label>
               <label>
-                기간 :<div>{inputs.oldInterest}</div>
+                기간 :<div>{inputs.period}</div>
                 개월
               </label>
             </p>
           </section>
 
           <section className="section">
-            <h2 className="h2">기존 예금</h2>
+            <h2 className="h2">기존 예금 이자</h2>
             <h2 className="h2">{addComma(result.old)}원</h2>
             <p className="content">
               <label>
@@ -63,7 +63,7 @@ export default function Result() {
           </section>
 
           <section className="section">
-            <h2 className="h2">새 예금</h2>
+            <h2 className="h2">새 예금 이자</h2>
             <h2 className="h2">{addComma(result.new)}원</h2>
             <p className="content">
               <label>

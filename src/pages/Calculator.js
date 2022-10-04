@@ -10,14 +10,10 @@ export default function Calculator() {
     amount: "",
     oldDate: "",
     oldInterest: "",
-    oldTax: "0.154",
+    oldTax: "15.4",
     newDate: "",
     newInterest: "",
-    newTax: "0.154",
-  });
-  const [result, setResult] = useState({
-    old: "",
-    new: "",
+    newTax: "15.4",
   });
 
   const handleAmountChange = (e) => {
@@ -81,11 +77,15 @@ export default function Calculator() {
     const remainingDays = getDateDiff(inputs["newDate"], dueDate);
 
     const oldDeposit =
-      ((inputs["amount"] * inputs["oldInterest"] * (1 - inputs["oldTax"])) /
+      ((inputs["amount"] *
+        (inputs["oldInterest"] * 0.01) *
+        ((100 - inputs["oldTax"]) * 0.01)) /
         365) *
       fullDays;
     const newDeposit =
-      ((inputs["amount"] * inputs["newInterest"] * (1 - inputs["newTax"])) /
+      ((inputs["amount"] *
+        (inputs["newInterest"] * 0.01) *
+        ((100 - inputs["newTax"]) * 0.01)) /
         365) *
       remainingDays;
 
@@ -207,9 +207,7 @@ export default function Calculator() {
         </div>
 
         <div className="btn__container">
-          <button type="submit" onClick={handleSubmit}>
-            계산하기
-          </button>
+          <button onClick={handleSubmit}>계산하기</button>
         </div>
       </div>
 
