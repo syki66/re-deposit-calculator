@@ -104,7 +104,7 @@ export default function Calculator() {
   return (
     <>
       <div className="outter__container">
-        <h1 className="h1">재예금 계산기</h1>
+        <h1 className="h1">예금 갈아타기 계산기</h1>
 
         <div className="container">
           <section className="section">
